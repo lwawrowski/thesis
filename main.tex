@@ -1,0 +1,144 @@
+%\documentclass[11pt]{report}
+\documentclass[11pt,twoside]{report}
+
+\input{praca_style.tex}
+\input{title_page_3.tex}
+
+\usepackage{polski}
+\usepackage{adjustbox}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{emptypage}
+
+\usepackage{afterpage}
+
+\newcommand\blankpage{%
+    \null
+    \thispagestyle{empty}%
+    \addtocounter{page}{-1}%
+    \newpage}
+
+\title{Doktorat}
+\author{Łukasz Wawrowski}
+\date{Data}
+
+\begin{document}
+
+\pagenumbering{Roman}
+
+\titleTH % Nowa strona tytulowa zgodnie z wymogami
+
+\cleardoublepage
+%\afterpage{\blankpage}
+
+%\chapter*{Podziękowania}
+
+\tableofcontents
+
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Spis rysunków}
+\listoffigures
+
+\cleardoublepage 
+\addcontentsline{toc}{chapter}{Spis tabel}
+\listoftables
+
+\cleardoublepage 
+\addcontentsline{toc}{chapter}{Wykaz skrótów}
+
+\chapter*{Wykaz ważniejszych skrótów}
+
+\begin{description}[leftmargin=8em,style=nextline,itemsep=0pt]
+\item[HT] estymator Horvitza-Thompsona
+\item[BLUP] najlepszy liniowy nieobciążony predyktor (ang. \textit{Best Linear Unbiased Predictor})
+\item[EBLUP] empiryczny najlepszy liniowy nieobciążony predyktor (ang. \textit{Empirical Best Linear Unbiased Predictor})
+\item[SEBLUP] przestrzenny empiryczny najlepszy liniowy nieobciążony predyktor (ang. \textit{Spatial Empirical Best Linear Unbiased Predictor})
+\item[EB] metoda Empiryczna Bayesowska (ang. \textit{Empirical Bayes})
+\item[MQ] metody M-kwantylowa (ang. \textit{M-quantile})
+\item[FH] model Faya-Herriota
+\item[SFH] przestrzenny model Faya-Herriota
+\item[SE] błąd standardowy (ang. \textit{Standard Error})
+\item[MSE] błąd średniokwadratowy (ang. \textit{Mean Square Error})
+\item[RRMSE] względny pierwiastek błędu średniokwadratowego (ang. \textit{Relative Root Mean Square Error})
+\item[SAMPLE] Small Area Methods for Poverty and Living Condition Estimates
+\item[AMELI] Advanced Methodology for European Laeken Indicators
+\item[SAIPE] Small Area Income and Poverty Estimates
+\item[NSP] Narodowy Spis Powszechny Ludności i Mieszkań
+\item[EU-SILC] Europejskie Badanie Dochodów i Warunków Życia
+\item[BBGD] Badanie Budżetów Gospodarstw Domowych
+\item[BSS] Badanie Spójności Społecznej
+\item[DS] Diagnoza Społeczna
+\item[BDL] Bank Danych Lokalnych
+\end{description}
+
+\cleardoublepage 
+\addcontentsline{toc}{chapter}{Wykaz symboli}
+
+\chapter*{Wykaz ważniejszych symboli}
+
+\begin{description}[leftmargin=8em,style=nextline,itemsep=0pt]
+\item[$U$] populacja
+\item[$j$] jednostka
+\item[$s$] zbiór jednostek wylosowanych z populacji $U$
+\item[$r$] zbiór jednostek niewylosowanych z populacji $U$
+\item[$N$] liczebność populacji
+\item[$n$] liczebność próby
+\item[$d$] domena, mały obszar
+\item[$N_d$] liczebność populacji w domenie
+\item[$n_d$] liczebność próby w domenie
+\item[$\theta$] wartość parametru
+\item[$\hat{\theta}$] oszacowanie parametru
+\item[$Y$] wartość globalna zmiennej badanej
+\item[$E_{dj}$] wartość dochodu $j$-tej jednostki w $d$-tej domenie
+\item[$z$] granica ubóstwa
+\item[$F_{\alpha}$] wskaźnik ubóstwa
+\item[$\psi$] wariancja z próby
+\item[$\boldsymbol{x}$] macierz zmiennych objaśniających
+\item[$\beta$] wektor parametrów efektów stałych
+\item[$u$] wektor efektów losowych
+\item[$e$] wektor reszt/błędów losowych
+\item[$W$] macierz sąsiedztwa
+\item[$\Psi$] funkcja wpływu
+\end{description}
+
+\clearpage
+\pagenumbering{arabic}
+
+\chapter*{Wstęp}
+\addcontentsline{toc}{chapter}{Wstęp}
+\input{00_wstep.tex}
+
+\chapter{Ubóstwo jako przedmiot badań}
+\input{01_ubostwo.tex}
+
+\chapter{Źródła danych na temat ubóstwa}
+\input{02_zrodla.tex}
+
+\chapter{Wybrane metody estymacji poziomu ubóstwa}
+\input{03_metody.tex}
+
+\chapter{Estymacja ubóstwa na poziomie podregionów i~powiatów}
+\input{04_oszacowania.tex}
+
+\chapter{Terytorialne zróżnicowanie ubóstwa w~Polsce}
+\input{05_ocena.tex}
+
+\chapter*{Zakończenie}
+\addcontentsline{toc}{chapter}{Zakończenie}
+\input{06_zakonczenie.tex}
+
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{Bibliografia}
+\bibliographystyle{apalike-lw}
+%\bibliographystyle{apalike}
+\bibliography{bibliography}
+
+\chapter*{Załączniki}
+\appendix
+\renewcommand{\thesection}{\Alph{section}}
+\addcontentsline{toc}{chapter}{Załączniki}
+
+\input{zalaczniki.tex}
+
+\end{document}

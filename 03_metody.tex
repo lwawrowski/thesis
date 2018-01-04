@@ -1,0 +1,665 @@
+\section{Wprowadzenie}
+
+Niniejsza część rozprawy zawiera opis wybranych estymatorów stosowanych w estymacji wskaźników ubóstwa na poziomach regionalnych i lokalnych. Rozdział składa się z czterech części. Pierwsza z nich jest poświęcona estymacji bezpośredniej --- klasycznemu podejściu wykorzystywanemu do uogólniania wyników pochodzących z badań reprezentacyjnych. Część druga i trzecia to opis wybranych metod dedykowanych estymacji wskaźników ubóstwa. W pierwszej kolejności zostało przedstawione podejście obszarowe, w którym poziom analizowanego wskaźnika ubóstwa w danym obszarze objaśniany jest zmiennymi mierzonymi na poziomie tego obszaru. Wykorzystuje się w tym celu charakterystyki społeczno-ekonomiczne dostępne m.in. w publicznych bazach statystycznych takich jak np. Bank Danych Lokalnych. Najpopularniejszym przedstawicielem tej grupy metod jest model Faya-Herriota \citep{fh1979}, który jest nieustannie rozwijany m.in. poprzez ujęcie w modelu macierzy sąsiedztwa i uwzględnienie w ten sposób czynnika przestrzennego \citep{pratesi2008}. Drugim rozważanym podejściem były modele jednostkowe, które bazują na modelowaniu dochodów lub wydatków gospodarstw domowych z wykorzystaniem danych jednostkowych pochodzących ze spisów powszechnych lub rejestrów administracyjnych. W rozdziale scharakteryzowano metodę empiryczną bayesowską (EB) \citep{ebp2010} oraz M-kwantylową (MQ) \citep{mq2006}. Ostatnia część rozdziału zawiera opis metod wykorzystywanych do diagnostyki oszacowań. Przedstawiona w pracy charakterystyka każdego z estymatorów obejmuje także opis metody estymacji błędu średniokwadratowego oszacowań. 
+
+\section{Estymacja bezpośrednia}
+
+Podstawowym narzędziem wykorzystywanym w estymacji parametrów populacji na podstawie badań reprezentacyjnych jest estymacja bezpośrednia. Przy odpowiednio licznej próbie estymator bezpośredni jest nieobciążony oraz efektywny \citep{rao2015}. Niemniej przy estymacji na niższym poziomie agregacji a tym samym przy mniej licznej próbie, estymator bezpośredni traci swoje własności. Pomimo tego oceny parametrów uzyskane z wykorzystaniem estymatora bezpośredniego są wykorzystywane jako wielkości wejściowe przy estymacji na poziomie obszaru oraz są punktem odniesieniu podczas oceny jakości oszacowań.
+
+\subsection{Estymator Horvitza-Thompsona}\label{estymator-horvitza-thompsona}
+
+Estymatorem stosowanym w badaniach reprezentacyjnych jest estymator bezpośredni zaproponowany przez Horvitza i Thompsona [\citeyear{ht1952}]. Niech $s$ oznacza próbę wylosowaną z populacji $U$, a~$s_d$ będzie podpróbą z obszaru $d$ o liczebności $n_d < N_d$. Przez $w_{dj}=\pi_{dj}^{-1}$ oznaczono wagę z próby będącą odwrotnością prawdopodobieństwa inkluzji pierwszego rzędu. Oszacowanie wartości globalnej w domenie $d$ uzyskuje się z wykorzystaniem wzoru:
+
+\begin{equation}
+\hat{Y}^{HT}_{d}=\sum\limits_{j=1}^{n_d}{y_{dj} w_{dj}},
+\label{eq:ht}
+\end{equation}
+
+gdzie: $\hat{Y}^{HT}_{d}$ --- oszacowanie globalnej wartości cechy $Y$ w $d$-tej domenie, $y_{dj}$ --- wartość cechy $Y$ dla $j$-tej jednostki w $d$-tym obszarze, $w_{dj}$ --- wartość wagi wynikającej ze schematu losowania dla $j$-tej jednostki w $d$-tym obszarze.
+
+W celu estymacji bezpośredniej wskaźników z rodziny FGT (przedstawionych w podrozdziale \ref{pr:wskazniki-ubostwa}) należy zmodyfikować formułę (\ref{eq:ht}) w następujący sposób:
+
+\begin{equation}
+\hat{F}_{\alpha d}^{HT}=N^{-1}_{d}\sum_{j \in s_d}{w_{dj}\left(\frac{z - E_{dj}}{z}\right)^{\alpha}I(E_{dj}<z)}, \; j=1, ..., N_d,
+\label{eq:ht_fgt}
+\end{equation}
+
+gdzie: $w_{dj}$ --- wartość wagi wynikającej ze schematu losowania dla $j$-tej jednostki w $d$-tym obszarze, $N$ --- liczba osób w $d$-tym obszarze, $E_{dj}$ --- dochód $j$-tej jednostki, $z$ --- granica ubóstwa, $I(.)$ --- funkcja indykatorowa przyjmująca wartość 1 jeśli wyrażenie wewnątrz funkcji jest prawdziwe i 0 w przeciwnym przypadku.
+
+Estymator bezpośredni wykorzystuje wyłącznie dane pochodzące z próby i dla dużych wartości $n_d$ jest nieobciążony i efektywny. Niemniej mała liczebność próby implikuje duże wartości wariancji. Ponadto ten sposób estymacji nie może zostać wykorzystany w przypadku, gdy dana domena w próbie nie jest w ogóle reprezentowana ($n_d=0$) \citep{molina2016}.
+
+\subsection{Estymacja MSE w podejściu bezpośrednim}
+
+Wariancja estymatora jest określana jako
+
+\begin{equation}
+V(\hat{\theta})=E[(\hat{\theta}-E[\hat{\theta}])^2]
+\end{equation}
+
+natomiast błąd średniokwadratowy (MSE)
+
+\begin{equation}
+MSE(\hat{\theta})=E[(\hat{\theta}-\theta)^2]
+\end{equation}
+
+Jeśli estymator jest nieobciążony tzn. $B(\hat{\theta})=E[\hat{\theta}-\theta]$ --- wówczas MSE i wariancja są sobie równe \citep{rao2015}. 
+
+Estymator wariancji (MSE) nie wykorzystujący prawdopodobieństw inkluzji drugiego rzędu jest dany wzorem \citep{molina-marhuenda2015}:
+
+\begin{equation}
+\hat{V}\left(\hat{Y}^{HT}_d\right)=\frac{1}{N_d^2}\sum\limits_{j \in s_d}{w_{dj}(w_{dj}-1)Y^2_{dj}}.
+\end{equation}
+
+Wariancję estymatora bezpośredniego można także oszacowań metodą bootstrapową \citep{wolter2007}. W tym celu stosuje się procedurę, w ramach której losowanych jest $A$ niezależnych replikacji boostrapowych na podstawie próby podstawowej. Obserwacje, które zostają wylosowane oznaczane są odpowiednio symbolami $Y^*_{\alpha 1},\ldots, Y^*_{\alpha n}$, dla $\alpha=1,\ldots,A$ replikacji. Następnie dla każdej replikacji bootstrapowej, obliczana jest ocena estymatora $\hat{\theta}^{*}_\alpha$ szacowanego parametru. Wariancja estymatora dana jest wzorem:
+\begin{equation}
+\hat{V}(\hat{\theta})=\frac{1}{A-1}\sum\limits_{\alpha=1}^{A}{(\hat{\theta}^{*}_{\alpha}-\hat{\bar{\theta}}^*)^2},
+\end{equation}
+gdzie $\hat{\bar{\theta}}^*=\frac{1}{A}\sum\limits_{\alpha=1}^{A}{\hat{\theta}^{*}_{\alpha}}$.
+
+%\section{Liniowy model mieszany}\label{liniowy-model-mieszany}
+
+\section{Estymacja na poziomie obszaru}
+
+Spośród technik estymacji pośredniej w pierwszej kolejności scharakteryzowano metody, które nie wymagają dostępu do danych jednostkowych z badania pełnego bądź rejestru administracyjnego, a wykorzystują wskaźniki dostępne w bazach statystycznych. Pomimo tego, że opisywane podejścia sięgają do roku 1979, cały czas są wykorzystywane i rozwijane w badaniach naukowych oraz stosowane przez statystykę publiczną \citep{saipe}.
+
+\subsection{Model Faya-Herriota}
+
+Model Faya-Herriota [\citeyear{fh1979}] jest modelem na poziomie obszaru, co oznacza że do jego aplikacji nie są wymagane dane jednostkowe pochodzące np. ze spisu powszechnego. Jest to niewątpliwa zaleta tego podejścia ponieważ dostęp do takich danych jest bardzo często niemożliwe, ze względu chociażby na zachowanie zasady tajemnicy statystycznej. Dostępność danych na poziomie badanej domeny jest z reguły dużo większa --- takie dane można pozyskać np. z Banku Danych Lokalnych, Eurostatu czy innych publicznych lub niepublicznych baz danych.
+
+Budowa modelu Faya-Herriota przebiega w dwóch etapach \citep{torabi2008}. Pierwszy obejmuje założenie, że oszacowanie bezpośrednie ($\hat{\theta}_d$) parametru ($\theta_d$) jest nieobciążone i można je zapisać jako:
+
+\begin{equation}
+\hat{\theta}_d = \theta_d + e_d,
+\end{equation}
+
+gdzie $e_d\stackrel{ind}{\sim} N(0,\psi_{d})$. W praktyce wariancja $\psi_d$ nie jest znana, w związku z czym jest estymowana na podstawie próby lub obliczona z wykorzystaniem metody uogólnionej funkcji wariancji (GVF) \citep{wolter2007}.
+
+W drugim etapie, model Faya-Herriota traktuje $\theta_d$ jako zmienną zależną w modelu liniowym z~jednym efektem losowym na poziomie obszaru:
+
+\begin{equation}
+\theta_d=x_d'\beta+u_d,
+\end{equation}
+
+gdzie $x_d$ --- wektor zmiennych niezależnych dla obszaru $d$ o wymiarach $p \times 1$, $\beta$ --- wektor parametrów regresji oraz $u_d$ --- efekt obszaru o $u_d\stackrel{iid}{\sim}N(0,\sigma^2_u)$.
+
+Model zaproponowany przez Faya-Herriota jest wariantem modelu liniowego z efektem losowym (obszaru) \citep{fratczak2012}:
+
+\begin{equation}
+\theta_d=x_d'\beta+u_d+e_d,
+\end{equation}
+
+który można także przedstawić w formie macierzowej:
+
+\begin{equation}
+\mathbf{\theta}=\mathbf{X}\beta+\mathbf{u}+\mathbf{e}.
+\end{equation}
+
+W odniesieniu do estymacji stopy ubóstwa przyjmuje postać:
+
+\begin{equation}
+\hat{F}_{\alpha d}^{HT}=x_d^{T}\beta + u_d + e_d,\; d=1, ..., D,
+\end{equation}
+
+gdzie: $\hat{F}_{\alpha d}$ --- oszacowana wartość wskaźnika ubóstwa w obszarze $d$, $x_d^{T}$ --- wektor zmiennych niezależnych dla obszaru $d$ o wymiarach $p \times 1$, $u_d$ --- efekt obszaru o $u_d\stackrel{iid}{\sim}N(0,\sigma^2_u)$, $e_d$ --- błąd losowy $e_d\stackrel{ind}{\sim}N(0,\psi_d)$ o znanej wariancji $\psi_d$.
+
+Najlepszy nieobciążony liniowy predyktor (ang. \textit{best linear unbiased predictor, BLUP}) wyrażony jest wzorem:
+
+\begin{equation}
+\tilde{F}_{\alpha d}^{FH}=x_d^{T}\tilde{\beta} + \tilde{u}_d = \gamma_d\hat{F}_{\alpha d}^{HT} + (1-\gamma_d)x_d^{T}\tilde{\beta},\; d=1, ..., D,
+\end{equation}
+
+gdzie: $\gamma_d=\frac{\sigma^2_u}{\sigma^2_u+\psi_d}$, a $\tilde{\beta}$ jest wyznaczone w wykorzystaniem ważonej metody najmniejszych kwadratów:
+
+\begin{equation}
+\tilde{\beta}=\left(\sum\limits_{d=1}^{D}{\gamma_d x_d x_d^T}\right)^{-1}\sum\limits_{d=1}^{D}{\gamma_d x_d \hat{F}_{\alpha d}^{HT}}.
+\end{equation}
+
+Estymator BLUP jest średnią ważoną oszacowania bezpośredniego $\hat{F}_{\alpha d}^{HT}$ oraz oszacowania syntetycznego regresyjnego $x_d^{T}\tilde{\beta}$. Waga $\gamma_d \in \left\langle 0,1\right\rangle$ mierzy niepewność wynikającą z opisu szacowanej wartości przez model regresyjny. W zależności od wariancji z próby $\psi_d$ oraz wariancji międzyobszarowej $\sigma_u^2$ większy bądź mniejszy udział będzie przypisywany szacunkowi bezpośredniemu \citep{boonstra2011}.
+
+W praktyce wartość $\sigma_u^2$ nie jest znana i należy ją estymować. W tym celu można wykorzystać szereg metod: metodę Faya-Herriota lub Prasada-Rao, a także metodę największej wiarygodności oraz metodę największej wiarygodności z ograniczeniami \citep{prasad1990}. Zastępując $\sigma_u^2$ wartością oszacowaną $\hat{\sigma}^2_u$ otrzymuje się empiryczny najlepszy nieobciążony liniowy predyktor (EBLUP):
+
+\begin{equation}
+\hat{F}_{\alpha d}^{FH}=x_d^{T}\hat{\beta} + \hat{u}_d = \hat{\gamma}_d\hat{F}_{\alpha d}^{HT} + (1-\hat{\gamma}_d)x_d^{T}\hat{\beta},\; d=1, ..., D,
+\end{equation}
+
+oraz 
+
+\begin{equation}
+\hat{\beta}=\left(\sum\limits_{d=1}^{D}{\hat{\gamma}_d x_d x_d^T}\right)^{-1}\sum\limits_{d=1}^{D}{\hat{\gamma}_d x_d \hat{F}_{\alpha d}^{HT}},
+\end{equation}
+
+gdzie $\hat{\gamma}_d=\frac{\hat{\sigma}^2_u}{\hat{\sigma}^2_u+\psi_d}$.
+
+Dla niereprezentowanych w próbie domen szacunek wyznacza się wykorzystując jedynie podejście pośrednie, nie korzystając z oszacowań bezpośrednich.
+
+\begin{equation}
+\hat{F}_{\alpha d}^{FH}=x_d^{T}\hat{\beta},\; d=1, ..., D,
+\end{equation}
+
+Uzyskane w ten sposób oceny estymatorów określa się mianem syntetycznych \citep{rao2015}.
+
+\subsection{Przestrzenny model Faya-Herriota}
+
+Przestrzenny model Faya-Herriota \citep{pratesi2008} zakłada uwzględnienie w klasycznym modelu Faya-Herriota macierzy sąsiedztwa oraz wyznaczonego na jej podstawie współczynnika autokorelacji przestrzennej efektów losowych. Ogólna postać tego modelu jest wówczas następująca:
+
+\begin{equation}
+\hat{F}_{\alpha d}^{HT}=x_d^{T}\beta + (I-\rho W)^{-1}u_d + e_d,\; d=1, ..., D,
+\end{equation}
+
+gdzie: $\hat{F}_{\alpha d}$ --- oszacowania wartość wskaźnika ubóstwa w obszarze $d$, $x_d^{T}$ --- wektor zmiennych niezależnych dla obszaru $d$ o wymiarach $p \times 1$, $\rho$ --- współczynnik autokorelacji przestrzennej, $W$~--- macierz sąsiedztwa, $u_d$ --- efekt obszaru o $u_d\stackrel{iid}{\sim}N(0,\sigma^2_u)$, $e_d$ --- błąd losowy $e_d\stackrel{ind}{\sim}N(0,\psi_d)$ o~znanej wariancji $\psi_d$.
+
+Macierz $W$ jest macierzą sąsiedztwa pomiędzy analizowanymi obszarami, z kolei $\rho$ jest miarą powiązań przestrzennych pomiędzy efektami losowymi w sąsiadujących obszarach. W oryginalnej macierzy sąsiedztwa $W^0$ elementy diagonalne są równe 0, natomiast pozostałe elementy macierzy przyjmują wartość równą 1 w przypadku gdy dwa obszary ze sobą sąsiadują, a 0 w przeciwnym razie. Macierz $W$ otrzymuje się na podstawie $W^0$ poprzez podzielenie każdego elementu w wierszu przez sumę wiersza. W ten sposób uzyskuje się macierz wierszowo-standaryzowaną, w której suma każdego wiersza jest równa 1.
+
+Estymatorem tego modelu jest przestrzenny najlepszy liniowy nieobciążony predyktor (Spatial BLUP):
+
+\begin{multline}
+\tilde{F}_{\alpha d}^{SFH}=x_d^{T}\tilde{\beta}+b_{d}^{T}\left\{\sigma_u^2\left[(I-\rho W)(I-\rho W^T)\right]^{-1}\right\} \\ \times \left\{diag(\psi_d)+\sigma_u^2\left[(I-\rho W)(I-\rho W^T)\right]^{-1}\right\}^{-1}(\hat{F}_{\alpha d}^{HT}-x_d^{T}\tilde{\beta}),\; d=1, ..., D,
+\end{multline}
+
+gdzie: $b_d^T$ jest wektorem $1 \times D$ z wartością 1 na $d$-tej pozycji, natomiast
+
+\begin{equation}
+\tilde{\beta}=\left(\sum\limits_{d=1}^{D}{v_d x_d x_d^T}\right)^{-1}\sum\limits_{d=1}^{D}{v_d x_d \hat{F}_{\alpha d}^{HT}},
+\end{equation}
+
+gdzie $v_d=diag(\psi_d)+\sigma_u^2\left[(I-\rho W)(I-\rho W^T)\right]^{-1}.$
+
+Powyższy estymator zależy od dwóch nieznanych wartości: $\sigma_u^2$ oraz $\rho$. Zastąpienie tych wartości oszacowaniami prowadzi do wyznaczenia wzoru na estymator SEBLUP:
+
+\begin{multline}
+\hat{F}_{\alpha d}^{SFH}=x_d^{T}\hat{\beta}+b_{d}^{T}\left\{\hat{\sigma}_u^2\left[(I-\hat{\rho} W)(I-\hat{\rho} W^T)\right]^{-1}\right\} \\ \times \left\{diag(\psi_d)+\hat{\sigma}_u^2\left[(I-\hat{\rho} W)(I-\hat{\rho} W^T)\right]^{-1}\right\}^{-1}(\hat{F}_{\alpha d}^{HT}-x_d^{T}\hat{\beta}),\; d=1, ..., D.
+\end{multline}
+
+Podobnie, jak w przypadku klasycznego modelu Faya-Herriota, także w wariancie przestrzennym do wyznaczenia oszacowania w niereprezentowanych w próbie domenach wykorzystuje się wyłącznie estymację syntetyczną:
+
+\begin{equation}
+\hat{F}_{\alpha d}^{SFH}=x_d^{T}\hat{\beta}, \; d=1, ..., D.
+\end{equation}
+
+\subsection{Estymacja MSE w podejściu obszarowym}
+
+Błąd średniokwadratowy (MSE) powyższych estymatorów można zapisać jako sumę:
+
+\begin{equation}
+MSE(\hat{F}_{\alpha d}^{FH})=g_{1d}(\hat{\sigma}_u^2)+g_{2d}(\hat{\sigma}_u^2)+2g_{3d}(\hat{\sigma}_u^2)
+\end{equation}
+
+lub
+
+\begin{equation}
+MSE(\hat{F}_{\alpha d}^{SFH})=g_{1d}(\hat{\sigma}_u^2,\hat{\rho})+g_{2d}(\hat{\sigma}_u^2,\hat{\rho})+2g_{3d}(\hat{\sigma}_u^2,\hat{\rho}),
+\end{equation}
+
+gdzie:
+
+\begin{equation}
+g_{1d}(\hat{\sigma}_{u}^{2})=\hat{\gamma}_{d}\psi_{d},
+\end{equation}
+
+\begin{equation}
+g_{2d}(\hat{\sigma}_{u}^{2})=(1-\hat{\gamma_{d}})^2 x_{d}^{T}\left[\sum\limits_{d=1}^{D}{x_{d}x_{d}^{T}}/(\psi_{d}+\hat{\sigma}_{u}^{2})\right]^{-1}x_{d},
+\end{equation}
+
+oraz
+
+\begin{equation}
+g_{3d}(\hat{\sigma}_{u}^{2})=\psi_{d}^{2}(\psi_{d}+\hat{\sigma}_{u}^{2})^{-3}\bar{V}(\hat{\sigma}_{u}^{2}).
+\end{equation}
+
+Asymptotyczna wariancja $\bar{V}(\hat{\sigma}_{u}^{2})$ jest wyznaczana według wzoru:
+
+\begin{equation}
+\bar{V}(\hat{\sigma}_{u}^{2})=2D^{-2}\sum\limits_{d=1}^{D}{(\hat{\sigma}_{u}^{2}+\psi_{d})^2}.
+\end{equation}
+
+Składnik MSE $g_{1d}$ odpowiada za błąd oszacowania $\psi_d$, $g_{2d}$ za błąd oszacowania parametrów $\beta$, a $g_{3d}$ jest składnikiem odpowiadającym za błąd oszacowania $\sigma_u^2$ w klasycznym modelu Faya-Herriota lub $\sigma_u^2$ i $\rho$ w przestrzennym modelu Faya-Herriota \citep{singh2005}.
+
+Do estymacji wariancji można także wykorzystać parametryczną metodę bootstrap \citep{gonzales2008}.
+
+Algorytm estymacji jest następujący:
+
+\begin{enumerate}
+\item dopasowanie oryginalnego modelu otrzymując oszacowanie $\hat{\sigma}_u^2$ oraz $\hat{\beta}$,
+\item wygenerowanie wektora $\mathbf{u^*}$ o rozkładzie $N(0, \hat{\sigma}_u)$ oraz obliczenie $\mathbf{\theta^*}=\mathbf{X}\hat{\beta}+\mathbf{u^*}$,
+\item wygenerowanie wektora $\mathbf{e^*}$ o rozkładzie $N(0, \sqrt{\psi})$,
+\item skonstruowanie wektora danych bootstrapowych $\mathbf{\hat{\theta}^*}=\mathbf{\theta^*}+\mathbf{e^*}=\mathbf{X}\hat{\beta}+\mathbf{u^*}+\mathbf{e^*}$,
+\item dopasowanie modelu do danych bootstrapowych $\mathbf{\hat{\theta}^*}$ w celu otrzymania nowych oszacowań $\hat{\sigma}_u^{2*}$ oraz $\hat{\beta}^{*}$ --- traktując wektor $\psi$ jako wartości prawdziwe,
+\item wyznaczenie $\hat{\theta}^{*B}$ uwzględniając wartości wyznaczone w punkcie 5,
+\item powtórzenie kroków 2-6 $B$ razy. Zakładając, że $\theta^{*(b)}$ oznacza znane wartości parametru, a~$\mathbf{\hat{\theta}}^{*(b)}$ oszacowania EBLUP otrzymane w $b$-tej replikacji bootstrapowej,
+\item estymatorem wariancji jest: 
+\begin{equation}
+\hat{V}(\hat{\theta})=B^{-1}\sum\limits_{b=1}^{B}{[\hat{\theta}^{*(b)}-\theta^{*(b)}]^2}.\end{equation}
+\end{enumerate}
+
+Przedstawiony algorytm można także wykorzystać do oszacowania wariancji estymatora SEBLUP. Wówczas należy dodatkowo uwzględnić macierz odległości $W$ oraz współczynnik autokorelacji przestrzennej $\rho$ \citep{pratesi2007}.
+
+\section{Estymacja na poziomie jednostki}
+
+Podejście jednostkowe jako zmienną zależną przyjmuje wektor dochodów lub wydatków gospodarstw domowych z wykorzystaniem danych jednostkowych pochodzących z badań pełnych lub rejestrów administracyjnych. W tym przypadku dostępność zmiennych niezależnych jest dużo mniejsza od tej występującej dla modeli obszarowych. Estymacja wskaźnika ubóstwa w przypadku tych metod polega na tworzeniu, z wykorzystaniem symulacji Monte Carlo, pseudo-populacji, które stanowią podstawę estymacji wskaźników ubóstwa. Ze względu na wymaganą dużą liczbę replikacji oraz wykorzystywanie baz danych znacznych rozmiarów estymacja wariancji w podejściu jednostkowym jest rozbudowanym obliczeniowo działaniem, co przekłada się przede wszystkim na długotrwały proces przetwarzania danych.
+
+\subsection{Metoda empiryczna bayesowska}
+
+Metoda empiryczna bayesowska (EB) jest stosunkowo nowym podejściem przedstawionym w artykule \textit{Small area estimation of poverty indicators} \citep{ebp2010}. Polega na dopasowaniu liniowego modelu mieszanego opisującego dochód na poziomie gospodarstwa domowego na podstawie danych z badania reprezentacyjnego. Uzyskane oszacowania parametrów $\beta$ oraz wariancje efektów losowych są następnie wykorzystywane w generowaniu teoretycznych wartości dochodu dla jednostkowych wartości \textit{zmiennych pomocniczych} pochodzących z badania pełnego.
+
+Dany jest wektor $y=(y_1,...,y_N)'$ zawierający wartości zmiennej losowej powiązanej z $N$ jednostkami skończonej populacji. Niech $y_s$ będzie fragmentem wektora $y$ zawierającym informacje z wylosowanej próby $s$, a $y_r$ wektorem elementów spoza próby. Po uporządkowaniu elementów można zapisać, że $y=(y'_s, y'_r)$. Celem jest oszacowanie wartości funkcji $\delta=h(y)$ zmiennej losowej $y$ z wykorzystaniem danych z próby $y_s$. Dla estymatora $\delta$ błąd średniokwadratowy (MSE) jest dany wzorem:
+
+\begin{equation}
+\text{MSE}(\hat{\delta})=E_y\{(\hat{\delta}-\delta)^2\},
+\label{eq:msebp}
+\end{equation}
+
+gdzie $E_y$ oznacza wartość oczekiwaną z uwzględnieniem łącznego rozkładu wektora $y$. Najlepszym estymatorem (ang. \textit{best predictor, BP}) parametru $\delta$ jest funkcja na $y_s$, która minimalizuje (\ref{eq:msebp}) i jest dana warunkową wartością oczekiwaną:
+
+\begin{equation}
+\hat{\delta^{B}}=E_{y_{r}}(\delta|y_s),
+\label{eq:bp}
+\end{equation}
+
+gdzie wartość oczekiwana uwzględnia warunkowy rozkład $y_r$. Warto zauważyć, że ten estymator jest nieobciążony ponieważ:
+
+\begin{equation}
+E_{y_{s}}(\hat{\delta}^B)=E_{y_{s}}\{E_{y_{r}}(\delta|y_s)\}=E_y(\delta).
+\end{equation}
+
+Zwykle $\hat{\delta}^B$ zależy od wektora $\theta$ nieznanych parametrów modelu. Wówczas empiryczny BP $\delta$ otrzymuje się poprzez zastąpienie $\theta$ odpowiednim estymatorem $\hat{\theta}$ i następne oszacowanie (\ref{eq:bp}) przyjmując $\theta=\hat{\theta}$.
+
+Poniżej zaprezentowano sposób otrzymania oszacowania BP dla rodziny wskaźników ubóstwa FGT dla małych domen. Zakładamy transformację zmiennej dochodowej $E_{dj}$ według formuły $Y_{dj}=T(E_{dj})$, biorąc pod uwagę, że wektor $y$ zawiera wartości transformowanej zmiennej $Y_{dj}$ dla wszystkich jednostek populacji tak, że $y \sim N(\mu, V)$. Wówczas zmienną losową 
+
+\begin{equation}
+\hat{F}_{\alpha d j}=\left(\frac{z - E_{dj}}{z}\right)^{\alpha}I(E_{dj}<z),\; j=1, ..., N_d.
+\label{eq:fgt2}
+\end{equation}
+
+można wyrazić w kontekście $Y_{dj}$ jako:
+
+\begin{equation}
+F_{\alpha d j}=\left(\frac{z-T^{-1}(Y_{dj})}{z}\right)^{\alpha}I\left\{T^{-1}(Y_{dj})<z\right\}=:h_{\alpha}(Y_{dj}),\qquad \text{j=1,...,$N_d$}.
+\end{equation}
+
+Wobec tego miara ubóstwa (\ref{eq:fgt}) jest nieliniową funkcją wektora $y$. Przyjmując za $\delta=F_{\alpha d}$ i~podstawiając do (\ref{eq:bp}) najlepszym estymatorem (BP) parametru $F_{\alpha d}$ jest:
+
+\begin{equation}
+\hat{F}^{B}_{\alpha d}=E_{y_{r}}(F_{\alpha d}|y_s)
+\label{eq:bpexp}
+\end{equation}
+
+Dekomponując $F_{\alpha d}$ (\ref{eq:fgt}) na jednostki wylosowane i spoza próby otrzymuje się:
+
+\begin{equation}
+F_{\alpha d}=\frac{1}{N_d}\left\{\sum\limits_{j \in s_d}{F_{\alpha dj}}+\sum\limits_{j \in r_d}{F_{\alpha dj}}\right\}
+\label{eq:dec1}
+\end{equation}
+
+Uwzględniając warunkową wartość oczekiwaną formuły (\ref{eq:dec1}) i wprowadzając ją do wnętrza sumy, estymator wskaźnika ubóstwa przyjmuje postać:
+
+\begin{equation}
+\hat{F}^B_{\alpha d}=\frac{1}{N_d}\left\{\sum\limits_{j \in s_d}{F_{\alpha dj}}+\sum\limits_{j \in r_d}{\hat{F}^B_{\alpha dj}}\right\}
+\label{eq:dec2}
+\end{equation}
+
+gdzie $\hat{F}^B_{\alpha dj}$ jest najlepszym estymatorem $F_{\alpha d j}=h_{\alpha}(Y_{dj})$ danym przez
+
+\begin{equation}
+\hat{F}^B_{\alpha dj}=E_{y_{r}}[h_{\alpha}(Y_{dj})|y_s]=\int_{IR}{h_{\alpha}(y)f_{Y_{dj}}(y|y_s)}\text{d}y,\qquad j \in r_d.
+\label{eq:bpcalka}
+\end{equation}
+
+$f_{Y_{dj}}(y|y_s)$ jest warunkową gęstością $Y_dj$ wektora $y_s$. Wartość oczekiwana (\ref{eq:bpcalka}) nie może zostać wyliczona bezpośrednio z powodu złożoności $h_{\alpha}(y)$. Jednakże w przypadku, gdy $y=(y'_s,y'_r)'$ ma rozkład normalny ze średnią daną wektorem $\mu=(\mu'_s,\mu'_r)'$, macierz kowariancji jest zdekomponowana jako:
+
+\begin{equation}
+V=
+\begin{bmatrix}
+V_s & V_{sr}\\
+V_{rs} & V_r
+\end{bmatrix},
+\end{equation}
+
+a warunkowy rozkład $y_r$ pod warunkiem $y_s$ dany jest przez
+
+\begin{equation}
+y_r|y_s \sim N(\mu_{r|s},V_{r|s}),
+\label{eq:condyr}
+\end{equation}
+
+gdzie:
+
+\begin{equation}
+\mu_{r|s}=\mu_r+V_{rs}V_{s}^{-1}(y_s-\mu_s) \qquad \text{i} \qquad V_{r|s}=V_r-V_{rs}V_s^{-1}V_{sr}.
+\label{eq:distyr}
+\end{equation}
+
+Wówczas empiryczne przybliżenie rozwiązania (\ref{eq:bpcalka}) jest możliwe z wykorzystaniem symulacji Monte Carlo o dużej liczbie $L$ wektorów $y_r$ wygenerowanych z (\ref{eq:condyr}).
+
+Niech $Y_{dj}^{(\ell)}$ oznacza wartości zmiennej $Y_{dj}$, $j\in r_d$ spoza próby otrzymane w $\ell$ symulacjach $\ell=1,...,L$. Przybliżenie Monte Carlo najlepszego estymatora (BP) $Y_{dj}$ dla $j \in r_d$ jest wyrażone jako:
+
+\begin{equation}
+\hat{F}^{B}_{\alpha d j}=E_{y_{r}}[h_{\alpha}(Y_{dj})|y_s]\approx \frac{1}{L}\sum\limits_{\ell=1}^{L}{h_{\alpha}(Y_{dj}^{(\ell)})}, \qquad j \in r_d.
+\label{eq:bpmc}
+\end{equation}
+
+Końcowym estymatorem jest $\hat{F}_{\alpha d j}^{EB}$ będący najlepszym empirycznym predyktorem (EBP) parametru $F_{\alpha d j}$. Ostatecznie EBP miary ubóstwa $F_{\alpha d}$ jest określony wzorem:
+
+\begin{equation}
+\hat{F}^{EB}_{\alpha d}=\frac{1}{N_d}\left\{\sum\limits_{j \in s_d}{F_{\alpha dj}}+\sum\limits_{j \in r_d}{\hat{F}^{EB}_{\alpha dj}}\right\}.
+\label{eq:ebp}
+\end{equation}
+
+Zamiast wprowadzać wartość oczekiwaną do sumy tak jak w (\ref{eq:dec2}), wartość oczekiwana (\ref{eq:bpexp}) może być bezpośrednio przybliżona przez symulację Monte Carlo \citep{ebp2010}. Pozwala to na estymację praktycznie dowolnego parametru dla domeny $\delta_d=h(y_d)$ bez potrzeby wydzielania $\sum\limits_{j}{h(Y_{dj})}$. Przykładami estymowanych parametrów są kwantyle zmiennej dochodowej $E_{dj}=T^{-1}(Y_dj)$. Wówczas procedura zastosowania metody EB w estymacji parametru dla domeny $\delta_d=h(y_d)$ jest następująca:
+
+\begin{enumerate}
+\item estymacja nieznanych parametrów rozkładu $\theta$ transformowanego wektora $y$ wykorzystując dane z próby $y_s$,
+\item wygenerowanie $L$ wektorów spoza próby $y_r^{(\ell)},\ell=1,...,L$ na podstawie (\ref{eq:condyr}) i (\ref{eq:distyr}) zastępując $\theta$ estymatorem $\hat{\theta}$ uzyskanym w punkcie 1,
+\item rozszerzenie każdego z $L$ wygenerowanych wektorów $y_r^{(\ell)}$ danymi z próby $y_s$ do postaci wektora populacji $y^{\ell}=(y'_s,(y_r^{(\ell)})')', \ell=1,...,L$,
+\item wyznaczenie wartości parametru dla domeny $\delta^{(\ell)}_d=h(y_d^{(\ell)})$ wykorzystując elementy wektora $y^{(\ell)}$ dla $d$-tej domeny - $y_d^{\ell}=(y'_{ds},(y_{dr}^{(\ell)})')'$,
+\item przybliżenie Monte Carlo estymatora EBP parametru $\delta_d$ otrzymuje się poprzez uśrednienie wartości parametru dla domeny na podstawie $L$ pseudo-populacji:
+\begin{equation}
+\delta^{EB}_d=\frac{1}{L}\sum\limits_{\ell=1}^{L}{\delta_d^{(\ell)}}.
+\end{equation}
+\end{enumerate}
+
+%Jedyne wymaganie wobec tej metody jest takie, że rozkład transformowanej zmiennej $Y_{dj}=T(E_{dj})$ jest znany i warunkowy rozkład $y_r|y_s$ jest różniczkowalny.
+
+\subsubsection{Liniowy model regresji z zagnieżdżonym składnikiem losowym}
+
+W tej części zostanie wprowadzony model nadpopulacji $\xi$ oparty na liniowym modelu regresji z zagnieżdżonym błędem (Battese, Harter i Fuller, 1988), który może zostać wykorzystany do oszacowania (\ref{eq:ebp}). Model opisuje liniową dla wszystkich domen relację pomiędzy transformowaną zmienną dochodową $Y_{dj}$, a wektorem $x_{dj}$ zawierającym wartości $p$ zmiennych niezależnych, a~także uwzględnia losowy efekt dla domeny $u_d$ wraz z resztami $e_{dj}$:
+
+\begin{equation}
+\xi:\;Y_{dj}=x'_{dj}\beta+u_d+e_{dj},\qquad j=1,..,N_d, \qquad d=1,...,D,
+\label{eq:modelBHF}
+\end{equation}
+
+gdzie: $u_d\stackrel{iid}{\sim}N(0,\sigma^2_u)$ i $e_{dj}\stackrel{iid}{\sim}N(0,\sigma^2_e)$, a $u_d$ oraz $e_{dj}$ są niezależne.
+
+Wektory i macierze otrzymane poprzez wydzielenie elementów dla domeny $d$:
+
+\begin{equation}y_d=col_{1 \leq j \leq N_d}(Y_{dj}),\qquad e_d=col_{1 \leq j \leq N_d}(e_{dj}),\qquad X_d=col_{1 \leq j \leq N_d}(x'_{dj})\end{equation}.
+
+Wówczas wektor $y_d, d=1,...,D$ jest niezależny z $y_d \sim N(\mu_d, V_d)$, gdzie:
+
+\begin{equation}
+\mu_d=X_d\beta \qquad \text{i} \qquad V_d=\sigma_u^2 1_{N_d}1'_{N_d}+\sigma_e^2 I_{N_d},
+\end{equation}
+
+gdzie $1_k$ oznacza kolumnowy wektor jedynek o rozmiarze $k$, a $I_k$ jest macierzą jednostkową $k \times k$.
+
+Rozważana jest dekompozycja $y_d$ na jednostki wylosowane i te spoza próby $y_d=(y'_{ds},y'_{dr})'$ wprzypadku $n_d>0$ i podobnie dla $X_d, \mu_d$ i $V_d$. Rozkład $y_{dr}$ określony przez jednostki w próbie $y_{ds}$ jest w takim przypadku następujący:
+
+\begin{equation}
+y_{dr}|y_{ds} \sim N(\mu_{dr|s}, V_{dr|s}),
+\end{equation}
+
+gdzie
+
+\begin{equation}
+\mu_{dr|s}=X_{dr}\beta + \sigma^2_u 1_{N_d-n_d}1'_{n_d}V^{-1}_{ds}(y_{ds}-X_{ds}\beta),
+\label{eq:mudrs}
+\end{equation}
+
+\begin{equation}
+V_{dr|s}=\sigma^2_u(1-\gamma_d)1_{N_d-n_d}1'_{N_d-n_d}+\sigma^2_eI_{N_d-n_d},
+\label{eq:vdrs}
+\end{equation}
+
+dla $V_{ds}=\sigma^2_u1_{n_d}1'_{n_d}+\sigma^2_eI_{n_d}$ oraz $\gamma_d=\sigma^2_u(\sigma^2_u+\sigma^2_e/n_d)^{-1}$. Należy zauważyć, że $y_{dr}|y_{ds}$ i $y_{dr}|y_s$ mają taki sam rozkład w związku z niezależnością $y_d, d=1,...,D$. Załóżmy, że podział $\Omega_d$na $s_d$ i $r_d$ jest znany oraz, że zmienne niezależne $x_{dj}$ powiązane z $j \in r_d$ są znane.
+
+Zastosowanie przybliżenia Monte Carlo (\ref{eq:bpmc}) pociąga za sobą symulację $D$ wektorów $y_{dr}$ o~rozmiarze $N_d-n_d, d=1,...,D$ o wielowymiarowym rozkładzie normalnym. Powtórzenie tego procesu $L$ razy sprawia, że jest on wymagający obliczeniowo, a nawet niewykonalny dla dużych $N_d$. Można tego uniknąć zauważając, że macierz $V_{dr|s}$ (\ref{eq:vdrs}) odpowiada macierzy kowariancji wektora $y_{dr}$ wygenerowanego przez model
+
+\begin{equation}
+y_{dr}=\mu_{dr|s}+v_d1_{N_d-n_d}+\varepsilon_{dr}
+\label{eq:ydr}
+\end{equation}
+
+z nowym efektem losowym $v_d$ oraz błędem $\varepsilon_{dr}$, które są niezależne o rozkładach:
+
+\begin{equation}
+v_d \sim N\{0,\sigma^2_u(1-\gamma_d)\},\qquad d=1,..,D, \qquad \varepsilon \sim N(0_{N_d-n_d},\sigma^2_eI_{N_d-n_d}).
+\end{equation}
+
+Wykorzystując (\ref{eq:ydr}), zamiast generowania wektora $y_{dr}$ o wielowymiarowym rozkładzie normalnym wystarczy wygenerować jednowymiarowe zmienne $v_d \sim N\{0,\sigma^2_u(1-\gamma_d)\}$ i $\varepsilon_{dj} \sim N(0, \sigma^2_e)$ niezależnie dla $j \in r_d$ i wówczas uzyskać odpowiadające elementy wektora $y_{dj}, j \in r_d$ z (\ref{eq:ydr}) wykorzystując $\mu_{dr|s}$ dane przez (\ref{eq:mudrs}). Jak wspomniano wcześniej, w praktyce parametry modelu $\theta=(\beta',\sigma^2_u,\sigma^2_e)'$ są zastępowane przez odpowiednie estymatory $\hat{\theta}=(\hat{\beta}',\hat{\sigma}^2_u,\hat{\sigma}^2_e)'$ i wówczas wartości zmiennej $Y_{dj}$ są generowane rozkładu normalnego o odpowiednim odchyleniu standardowym.
+
+Jeśli domena $d$ nie znalazła się w próbie, wówczas wartości $Y^{(\ell)_{dj}}$ dla $j=1,...,N_d$ są generowane metodą bootstrap z wykorzystaniem $Y_{dj}=x'_dj\hat{\beta}+u^*_d+e^*_{dj}$, gdzie $u^*_d\stackrel{iid}{\sim}N(0,\hat{\sigma}^2_u)$ i~$e^*_{dj}\stackrel{iid}{\sim}N(0,\hat{\sigma^2_e})$ i $u^*_d$ jest niezależne od $e^*_{dj}$. Wzór (\ref{eq:bpmc}) jest wówczas wykorzystany do otrzymania estymatora $\hat{F}^{EB}_{\alpha dj}$ dla $F_{\alpha d j}$ i estymatora EB $F_{\alpha d}$ jako:
+
+\begin{equation}
+\hat{F}_{\alpha d}^{EB}=N_d^{-1}\sum\limits_{j=1}^{N_d}{\hat{F}^{EB}_{\alpha dj}}
+\label{eq:febad2}
+\end{equation}
+
+Estymator (\ref{eq:febad2}) jest syntetycznym estymatorem jeśli żadna jednostka nie jest obserwowana w domenie $d$.
+
+%Na rysunku \ref{fig:eb} przedstawiono schemat estymacji wskaźnika ubóstwa z wykorzystaniem estymatora EB.
+
+% \begin{figure}[ht]
+% \includegraphics[width=\textwidth]{03_wykresy/EB.pdf}
+% \caption{Algorytm estymacji wskaźnika ubóstwa z wykorzystaniem estymatora EB}
+% \small{Źródło: opracowanie własne na podstawie \citep{ebp2010}.}
+% \label{fig:eb}
+% \end{figure}
+
+\subsection{Estymacja MSE w podejściu EB metodą bootstrap}
+
+Błąd średniokwadratowy $\hat{F}^{EB}_{\alpha d}$ można zapisać jako:
+
+\begin{equation}
+\text{MSE}(\hat{F}^{EB}_{\alpha d})=E_{\xi}(\hat{F}^{EB}_{\alpha d}-F_{\alpha d})^2,
+\label{eq:mseeb1}
+\end{equation}
+
+gdzie $E_{\xi}$ oznacza wartość oczekiwaną z uwzględnieniem modelu $\xi$. Wzór (\ref{eq:mseeb1}) można zdekomponować w następujący sposób:
+
+%Należy zauważyć, że parametr $F_{\alpha d}$ jest zmienną losową, więc tradycyjna dekompozycja MSE na kwadrat obciążenia i wariancję $\hat{F}^{EB}_{\alpha d}$ nie ma racji bytu. 
+
+\begin{equation}
+\text{MSE}(\hat{F}^{EB}_{\alpha d})=V_{\xi}(\hat{F}^{EB}_{\alpha d}-F_{\alpha d})+\{E_{\xi}(\hat{F}^{EB}_{\alpha d}-F_{\alpha d})^2\},
+\label{eq:mseeb2}
+\end{equation}
+
+gdzie: $V_{\xi}$ oznacza wariancję modelu, a $E_{\xi}(\hat{F}^{EB}_{\alpha d}-F_{\alpha d})^2$ jest modelowym obciążeniem $\hat{F}^{EB}_{\alpha d}$. 
+
+%Dopóki modelowe obciążenie `'najlepszego'`estymatora $\hat{F}^{B}_{\alpha d}$ jest równe zero, kwadrat obciążenia'`najlepszego empirycznego'' estymatora $\hat{F}^{EB}_{\alpha d}$ w (\ref{eq:mseeb2}) jest zwykle bardzo małe w odniesieniu do wariancji szacowanego błędu $\hat{F}^{EB}_{\alpha d}-F_{\alpha d}$, kiedy $D$ jest duże. W takim przypadku MSE jest zdominowane prze składnik wariancji (\ref{eq:mseeb2}).
+
+Analityczne przybliżenia MSE są trudne do otrzymania w przypadku złożonych parametrów takich jak miary ubóstwa. Wówczas można wykorzystać parametryczny bootstrap dla skończonych populacji \citep{gonzales2008}. Poniżej przedstawiony jest algorytm tej metody:
+
+\begin{enumerate}
+\item dopasowanie modelu (\ref{eq:modelBHF}) do danych z próby ($y_s, X_s$), w celu otrzymania oszacowania $\hat{\beta}, \hat{\sigma}^2_u, \hat{\sigma}^2_e$ parametrów $\beta, sigma^2_u, \sigma^2_e$,
+\item wygenerowanie wektora $u^*_d\stackrel{iid}{\sim}N(0,\hat{\sigma}^2_u), d=1,...,D$ i niezależnie $e^*_{dj}\stackrel{iid}{\sim}N(0,\hat{\sigma}^2_e), j=1,...,N_d, d=1,...,D$,
+\item skonstruowanie bootstrapowego modelu nadpopulacji $\xi^*$ wykorzystującego $u^*_d, e^*_{dj}, x_{dj}, \hat{\beta}$:
+\begin{equation}
+\xi^*:Y^*_{dj}=x'_{dj}\hat{\beta}+u^*_{d}+e^*_{dj},\qquad j=1,...,N_d,\qquad d=1,...,D,
+\label{eq:modelBHFboot}
+\end{equation}
+\item wygenerowanie $B$ niezależnych i o identycznym rozkładzie pseudo-populacji bootstrapowych  $\{Y^{*(b)}_{dj};\;j=1,...,N_d,\;d=1,...,D\}$ na podstawie modelu (\ref{eq:modelBHFboot}), a następnie wyznaczenie odpowiednich parametrów $F^{*(b)}_{\alpha d}=N^{-1}_{d}\sum\limits_{j=1}^{N_d}{F^{*(b)}_{\alpha dj}}$, gdzie $F^{*(b)}_{\alpha dj}=h_{\alpha}(Y^{*(b)}_{dj}),b=1,...,B$,
+\item wylosowanie próby $s \subset U$ z każdej bootstrapowej populacji $b$ wygenerowanej w punkcie 4~i~wyznaczenie bootstrapowego EBP $F^{EB*(b)}_{\alpha d},b=1...,B$ tak jak opisano wcześniej, wykorzystując dane z próby $y^*_s$ i znane wartości populacji $x_{dj}$,
+\item przybliżenie Monte Carlo estymatora $\text{MSE}_*(\hat{F}^{EB*}_{\alpha d})=E_{\xi*}(\hat{F}^{EB*}_{\alpha d}-F^*_{\alpha d})^2$ parametru $\hat{F}^{EB}_{\alpha d}$ jest obliczane jako:
+\begin{equation}
+\text{mse}_*(\hat{F}^{EB}_{\alpha d})=\frac{1}{B}\sum\limits_{b=1}^{B}(\hat{F}^{EB*(b)}_{\alpha d}-F^{*(b)}_{\alpha d})^2.
+\label{eq:mseebboot}
+\end{equation}
+Estymator (\ref{eq:mseebboot}) jest wykorzystany do estymacji $\text{MSE}(\hat{F}^{EB}_{\alpha d})$ (\ref{eq:mseeb1}).
+\end{enumerate}
+
+Metoda podwójnego bootstrapu zaproponowana przez \citep{hall2006} może dostarczyć lepszych oszacowań MSE w kontekście względnego obciążenia, ale dla dużych populacji ta metoda może być nie możliwa do zastosowania.
+
+\subsection{Metoda M-kwantylowa}
+
+Metoda M-kwantylowa (MQ), w odróżnieniu do metody EB, nie wymaga spełnienia założeń dotyczących normalności efektów losowych oraz reszt, a także jest odporna na obserwacje odstające. W związku z tym zastosowanie metody M-kwantylowej w estymacji ubóstwa może ustrzec przed negatywnymi skutkami niespełnionych założeń w liniowym modelu regresji z zagnieżdżonym składnikiem losowym.
+
+%\subsection{Model regresji kwantylowej}
+
+Klasyczny model regresji określa zachowanie średniej zmiennej losowej $y$ w zależności od zmiennych niezależnych $\boldsymbol{x}$. Z kolei regresja kwantylowa \citep{koenker2005} definiuje zachowanie różnych części warunkowego rozkładu zmiennej zależnej $y$ względem $\boldsymbol{x}$. Niech $(x_j, y_j), \; j=1,...,n,$ oznacza wartości obserwowane w próbie zawierającej $n$ jednostek, gdzie $\boldsymbol{x}_j$ są wierszami w postaci p-wektorów znanej macierzy $\boldsymbol{x}$, a $y_j$ jest skalarem zmiennej zależnej. Liniowy model opisujący zależność $q$-tego-i kwantyla warunkowego rozkładu zmiennej zależnej $y_j$ względem $\boldsymbol{x}$ jest następujący:
+
+\begin{equation}
+Q_{y_j}(q;\boldsymbol{x}_j)=\boldsymbol{x}_j^T\beta(q),
+\label{eq:lmq}
+\end{equation}
+
+gdzie: $Q_{y_j}$ --- oszacowanie modelu dla $q$-tego kwantyla, $\boldsymbol{x}_j$ --- wektor zmiennych niezależnych dla $j$-tej jednostki, $\beta(q)$ --- parametry $\beta$ dla $q$-tego kwantyla.
+
+Oszacowania parametrów regresji kwantylowej, $\beta(q)$ otrzymuje się poprzez minimalizację wyrażenia:
+
+\begin{equation}
+\sum\limits_{j=1}^{n}{\left\{|y_j-x_j^T\beta(q)|\left[(1-q)I(y_j-x_i^T\beta(q)\leq 0)+qI(y_j-x_j^T\beta(q)> 0)\right]\right\}}.
+\end{equation}
+
+Regresja M-kwantylowa bazuje na funkcjach wpływu. M-kwantyl $q$ dla warunkowej funkcji gęstości zmiennej losowej $y$ i zmiennych niezależnych $\boldsymbol{x}$, $f(y|\boldsymbol{x})$ jest określony jako rozwiązanie $MQ_y(q|\boldsymbol{x};\Psi)$ szacowane poprzez $\Psi_q(y-MQ_y(q|\boldsymbol{x}; \Psi))f(y|\boldsymbol{x})dy=0$. $\Psi_q$ oznacza asymetryczną funkcję wpływu, która jest pochodną asymetrycznej funkcji strat $\rho_q$. Liniowy model regresji M-kwantylowej zakłada zatem, że:
+
+\begin{equation}
+MQ_{y_j}(q|x_j; \Psi)=x_j^T\beta_\Psi(q),
+\label{eq:mq}
+\end{equation}
+
+natomiast oszacowania $\beta_\Psi(q)$ uzyskuje się minimalizując:
+
+\begin{equation}
+\sum\limits_{j=1}^{n}{\rho_q(y_j-\boldsymbol{x}_j^T\beta_\Psi(q)}.
+\label{eq:mqbeta}
+\end{equation}
+
+Różne modele regresji mogą być zdefiniowane jako odrębne przykłady (\ref{eq:mqbeta}). W szczególności, specyfikując odpowiednią funkcję strat $\rho_q$ można otrzymać regresję kwantylową bądź M-kwantylową. W przypadku, kiedy $\rho_q$ jest kwadratową funkcją strat uzyskuje się model liniowy dla $q=0.5$. Często wybieraną funkcją jest funkcja Hubera \citep{huber1981}. Przyrównanie pierwszej pochodnej wyrażenia (\ref{eq:mqbeta}) do zera prowadzi do następującego wyrażenia:
+
+\begin{equation}
+\sum\limits_{j=1}^{n}{\Psi_q(r_{jq})x_j}=0,
+\end{equation}
+
+gdzie $r_{jq}=y_j-x_j^T\beta_\Psi(q)$, $\sum\limits_{j=1}^{n}{\left\{2\Psi(s^{-1}r_{jq})\left[(1-q)I(r_{jq}\leq 0)+qI(r_{jq}> 0)\right]\right\}}$, gdzie $s$ jest parametrem skali takim jak np. odchylenie standardowe. Wykorzystanie funkcji wpływu Hubera umożliwia estymację parametrów modelu z zastosowaniem iteracyjnej metody ważonych najmniejszych kwadratów.
+
+%\subsection{Podejście M-kwantylowe dla wskaźników ubóstwa}
+
+Rozszerzenie regresji M-kwantylowej w estymacji dla małych obszarów jest możliwe poprzez określenie warunkowej zmienności dla jednostek w populacji współczynnikami M-kwantylowymi \citep{mq2006}. Dla jednostki $j$ z wartościami $y_j$ i $\boldsymbol{x}_j$ tym współczynnikiem jest wartość $\theta_j$ taka, że $MQ_y(\theta_j|\boldsymbol{x}_j;\Psi)=y_j$. Współczynniki M-kwantylowe są ustalane na poziomie populacji. W związku z tym, jeśli hierarchiczna struktura nie wyjaśnia części zmienności w populacji, oczekuje się, że jednostki w obrębie obszarów (domen) określonych przez tę hierarchię będą miały podobne współczynniki M-kwantylowe. Empiryczne wartości efektów obszarowych $\theta_d$ mogą być policzone jako wartość oczekiwana współczynników M-kwantylowych w domenie $d$.
+
+Podobnie jak w przypadku podejścia EB, celem jest oszacowanie wskaźnika ubóstwa $F_{\alpha d}$ z~wykorzystaniem podejścia M-kwantylowego:
+
+\begin{equation}
+F_{\alpha d}=\frac{1}{N_d}\left\{\sum\limits_{j \in s_d}{F_{\alpha d}}+\sum\limits_{j \in r_d}{F_{\alpha d}}\right\},
+\label{eq:mq_dec}
+\end{equation}
+
+gdzie pierwszy komponent oznacza oszacowanie wskaźnika ubóstwa na podstawie jednostek w~próbie, a druga część równania odpowiada wskaźnikowi wyznaczonemu z wykorzystaniem jednostek spoza próby. Rozwiązaniem kwestii estymacji wskaźników ubóstwa na podstawie obserwacji, które nie znalazły się w próbie może być zastosowanie regresji M-kwantylowej. Estymacja ubóstwa stanowi specjalny przypadek szacowania kwantyla, jako że wyznacza się liczbę jednostek (osób/gospodarstw) żyjących poniżej granicy ubóstwa \citep{tzavidis2008}. 
+
+Estymacja \ref{eq:mq_dec} jest możliwa poprzez zastosowanie estymatora Chambersa-Dunstana \citep{lombardia2004}, który przyjmuje następującą postać:
+
+\begin{equation}
+F_{\alpha d}=\frac{1}{N_d}\left\{\sum\limits_{j \in s_d}{F_{\alpha d}}+\sum\limits_{j \in r_d}{E(F_{\alpha d})}\right\},
+\label{eq:mq_dec2}
+\end{equation}
+
+Rozważając prostszy przypadek, stopy ubóstwa, w którym $F_{0}=I(y_j<z)$ i wartości $y_j$ nie są znane, wartość $E(F_{0 d})$ może zostać oszacowana z wykorzystaniem modelu M-kwantylowego:
+
+\begin{equation}
+E(F_{0})=\int I\left(x_j^T\beta_\Psi(\theta_d)+\varepsilon\leq z\right)dF(\varepsilon).
+\label{eq:mq_calka}
+\end{equation}
+
+W związku z tym, że w tym podejściu nie ma założeń dotyczących rozkładu błędów losowych $F(\varepsilon)$, wartości $F(\varepsilon)$ mogą być szacowane z dystrybuanty empirycznej reszt:
+
+\begin{equation}
+\hat{F}(\varepsilon)=n^{-1}\sum\limits_{j=1}^{n}{I(\hat{\varepsilon_j}\leq\varepsilon)}.
+\end{equation}
+
+Prowadzi to do otrzymania wyrażenia:
+
+\begin{equation}
+\hat{E}(F_{0})=\int I\left(x_j^T\hat{\beta}_\Psi(\hat{\theta}_d)+\hat{\varepsilon}\leq z\right)d\hat{F}(\varepsilon)=n_d^{-1}\sum\limits_{j \in s_d}\sum\limits_{j \in r_d}I\left(x_j^T\hat{\beta}\Psi(\hat{\theta}_d)+\hat{\varepsilon}\leq z\right),
+\end{equation}
+
+gdzie $\hat{\varepsilon}$ to wartości teoretyczne reszt uzyskane na podstawie estymacji M-kwantylowych. Końcowe oszacowane dane jest formułą:
+
+\begin{equation}
+F_{0d}=\frac{1}{N_d}\left\{\sum\limits_{j \in s_d}{F_{0d}}+\sum\limits_{j \in r_d}{\hat{E}(F_{0d})}\right\}.
+\label{eq:mq_fin}
+\end{equation}
+
+To samo podejście można zastosować do pozostałych wskaźników z rodziny FGT. Estymacja odporna w modelu M-kwantylowym jest jedną z własności tego podejścia, w związku z czym parametry modelu szacowane są na podstawie oryginalnych (nietransformowanych) wartości zmiennych dochodowych.
+
+Przybliżoną wartość wyrażenia (\ref{eq:mq_calka}) można otrzymać stosując podejście Monte Carlo \citep{povsocecl152014}, które sprawdza się w przypadku estymacji bardziej złożonych wskaźników. Dla omawianych wskaźników $\hat{F}_{\alpha d}^{MQ}$ otrzymuje się według następującego algorytmu:
+
+\begin{enumerate}
+\item dopasowanie modelu M-kwantylowego (\ref{eq:mq}) z wykorzystaniem danych z próby $y_s$ w celu uzyskania oszacowania $\beta_\Psi$ i $q_d$.
+\item wygenerowanie wektora dla jednostek spoza próby:
+\begin{equation}
+y^{*}_{jdr}=\boldsymbol{x}_{jdr}\hat{\beta}(\hat{\theta_d})+e^{*}_{jdr},
+\end{equation}
+gdzie: $e^{*}_{jdr}$ jest wektorem o rozmiarze $N_d - n_d$ wylosowanym z dystrybuanty empirycznej oszacowanych modelem M-kwantylowych reszt. 
+\item powtórzenie kroków 1-2 $H$ razy. Po każdej iteracji połączenie danych z próby z wartościami spoza próby zgodnie ze wzorem:
+\begin{equation}
+\hat{F}_{\alpha d}^{MQ}=\frac{1}{N_d}\left\{\sum\limits_{j \in s_d}{F_{\alpha d}}+\sum\limits_{j \in r_d}{\hat{E}(F_{\alpha d})}\right\},
+\end{equation}
+\item uśrednienie wyników $H$ symulacji.
+\end{enumerate}
+
+\subsection{Estymacja MSE w podejściu MQ metodą bootstrap}
+
+Estymacja błędu średniokwadratego oszacowania (\ref{eq:mq_fin}) bazuje na nieparametrycznej metodzie bootstrap \citep{marchetti2012}. Algorytm estymacji jest następujący:
+
+\begin{enumerate}
+\item na podstawie próby $s$ wylosowanej ze skończonej populacji $U$ bez zwracania, estymowany jest model M-kwantylowy i uzyskiwane są oszacowania $\hat{\theta}_d$ i $\hat{\beta}_\Psi(\hat{\theta}_d)$, które są używane do obliczenia reszt teoretycznych,
+\item generowanych jest $B$ populacji bootstrapowych --- $U^{*b}$,
+\item z każdej populacji boostrapowej losowanych jest $L$ prób boostrapowych z wykorzystaniem losowania prostego w obrębie domen i bez zwracania takich, że $n^*_d=n_d$,
+\item na podstawie prób boostrapowych otrzymuje się oszacowania wskaźników ubóstwa z wykorzystaniem podejścia M-kwantylowego,
+\item boostrapowe estymatory obciążenia i wariacji parametru $\hat{\tau}_d$ dane są wzorami:
+\begin{equation}
+\hat{B}(\hat{\tau}_d)=B^{-1}L^{-1}\sum\limits_{b=1}^{B}\sum\limits_{\ell=1}^{L}{(\hat{\tau}_d^{*b\ell}-\tau_d^{*b})},
+\end{equation}
+\begin{equation}
+\hat{V}(\hat{\tau}_d)=B^{-1}L^{-1}\sum\limits_{b=1}^{B}\sum\limits_{\ell=1}^{L}{(\hat{\tau}_d^{*b\ell}-\bar{\hat{\tau}}_d^{*b})^2},
+\end{equation}
+gdzie: $\tau^{*b}_d$ jest szacowanym parametrem dla domeny w $b$-tej populacji bootstrapowej, $\hat{\tau}_d^{*b\ell}$ jest oszacowaniem uzyskanym na podstawie $\ell$-ej próby w $b$-tej populacji boostrapowej, a~$\bar{\hat{\tau}}_d^{*b}=L^{-1}\sum\limits_{\ell=1}^{L}{\hat{\tau}_d^{*b}}$,
+\item bootstrapowe oszacowanie MSE jest określone wzorem:
+\begin{equation}
+MSE^*(\hat{\tau_d})=\hat{V}(\hat{\tau}_d)+\hat{B}(\hat{\tau}_d)^2.
+\end{equation}
+\end{enumerate}
+
+Warto zauważyć, że obliczanie błędu średniokwadratowego zarówno w podejściu EB, jak i MQ wymaga bardzo rozbudowanego procesu obliczeniowego, ponieważ należy wykonać $B \times L$ iteracji \citep{zadlo2015}.
+
+\section{Ocena oszacowań}
+
+Analiza jakości otrzymanych szacunków oparta jest z reguły na ocenie błędu średniokwadratowego. Warto jednak podkreślić, że pełniejsza charakterystyka wyników estymacji wymaga rozłącznej oceny każdego ze składników MSE. Tak więc, należy niezależnie uwzględnić zarówno efektywność, jak i wartość obciążenia. Ponadto, w celu pełniejszej analizy wyników estymacji można dokonać oceny jakości szacunków pośrednich. W literaturze wypracowano szereg metod, które mogą być wykorzystane w tym celu \citep{brown2001}. Dedykowane są one głównie oszacowaniom otrzymanym na podstawie podejścia obszarowego.
+
+\subsection{Diagnostyka obciążenia}
+
+Diagnostyka obciążenia ma na celu sprawdzenie czy oszacowania pośrednie są zbliżone do oszacowań bezpośrednich. Jednym z prostszych sposobów na sprawdzenie tego założenia jest określenie linii regresji dla oszacowań pośrednich oraz bezpośrednich i ocena odchyleń od prostej $y=x$. Można także przeprowadzić testy parametryczne oceniające czy współczynnik kierunkowy różni się statystycznie od 1, a wyraz wolny od 0. W celu określenia homoskedastyczności wariancji korzysta się z testu Goldfelda-Quandta.
+
+Ponadto obciążenie oszacowań można ocenić także z wykorzystaniem metody bootstrap \citep{davison1997}. Dla modelu Faya-Herriota algorytm szacowania empirycznego obciążenia jest następujący:
+
+\begin{enumerate}
+\item dopasowanie oryginalnego modelu otrzymując oszacowanie $\hat{\sigma}_u^2$ oraz $\hat{\beta}$,
+\item wygenerowanie wektora $\mathbf{u^*}$ o rozkładzie $N(0, \hat{\sigma}_u)$ oraz obliczenie $\mathbf{\theta^*}=\mathbf{X}\hat{\beta}+\mathbf{u^*}$,
+\item wygenerowanie wektora $\mathbf{e^*}$ o rozkładzie $N(0, \sqrt{\psi})$,
+\item skonstruowanie wektora danych bootstrapowych $\mathbf{\hat{\theta}^*}=\mathbf{\theta^*}+\mathbf{e^*}=\mathbf{X}\hat{\beta}+\mathbf{u^*}+\mathbf{e^*}$,
+\item dopasowanie modelu do danych bootstrapowych $\mathbf{\hat{\theta}^*}$ w celu otrzymania nowych oszacowań $\hat{\sigma}_u^{2*}$ oraz $\hat{\beta}^{*}$ --- traktując wektor $\psi$ jako wartości prawdziwe,
+\item wyznaczenie $\hat{\theta}^{*B}$ uwzględniając wartości wyznaczone w punkcie 5,
+\item powtórzenie kroków 2-6 $B$ razy. Zakładając, że $\theta^{*(b)}$ oznacza znane wartości parametru, a~$\mathbf{\hat{\theta}}^{*(b)}$ oszacowania EBLUP otrzymane w $b$-tej replikacji bootstrapowej,
+\item estymatorem obciążenia jest: 
+\begin{equation}
+\hat{B}(\hat{\theta})=B^{-1}\sum\limits_{b=1}^{B}{[\hat{\theta}^{*(b)}-\theta^{*(b)}]}.\end{equation}
+\end{enumerate}
+
+\subsection{Diagnostyka pokrycia}
+
+Test pokrycia polega na wyznaczeniu 95\% procentowych przedziałów ufności dla oszacowań uzyskanych na podstawie modelu oraz oszacowań bezpośrednich. Następnie sprawdza się dla jakiego odsetka jednostek wyznaczone wcześniej przedziały nachodzą na siebie. Wielkość ta nie powinna różnić się istotnie od 95\% liczby analizowanych jednostek. Przedział ufności można wyznaczyć korzystając ze wzoru:
+
+\begin{equation}
+\hat{\theta} - 1,96 \cdot SE(\hat{\theta}) < \hat{\theta} < \hat{\theta} + 1,96 \cdot SE(\hat{\theta}),
+\end{equation}
+
+gdzie: $\hat{\theta}$ --- oszacowanie parametru, $1,96$ --- kwantyl rozkładu normalnego, $SE(\hat{\theta})$ --- błąd standardowy oszacowania parametru.
+
+\subsection{Dobroć dopasowania}
+
+Celem tej procedury jest ocena różnic pomiędzy oszacowaniami pośrednimi oraz bezpośrednimi z~uwzględnieniem błędu średniokwadratowego szacunków. W tym teście wyznacza się statystykę Walda według wzoru:
+
+\begin{equation}
+W=\sum\limits_{d=1}^{D}{\frac{(\hat{\theta}^{HT}-\hat{\theta})^2}{MSE(\hat{\theta}^{HT})+MSE(\hat{\theta})}},
+\end{equation}
+
+gdzie: $\hat{\theta}^{HT}$ --- bezpośredniego oszacowanie parametru, $\hat{\theta}$ --- oszacowanie parametru, $MSE(\hat{\theta})^{HT}$ --- błąd średniokwadratowy bezpośredniego oszacowania parametru, $MSE(\hat{\theta})^{HT}$ --- błąd średniokwadratowy oszacowania parametru.
+
+Wartość statystyki testowej jest porównywana z kwantylem rozkładu $\chi^2$ o liczbie stopni swobody równej liczbie analizowanych jednostek. W hipotezie zerowej weryfikowana jest równość wartości oczekiwanej oszacowania bezpośredniego oraz oszacowania pośredniego.
+
+\section{Podsumowanie}
+
+W rozdziale scharakteryzowano metody estymacji, które mogą być wykorzystane do szacunku wskaźników ubóstwa. Przegląd estymatorów rozpoczyna prezentacja podejścia bezpośredniego, wywodzącego się z klasycznej metody reprezentacyjnej. Stanowi ono podstawę metodyki statystyki małych obszarów, zaś reprezentujący je estymator Horvitza-Thompsona często traktowany jest jako punkt odniesienia przy porównywaniu precyzji estymacji w prowadzonych badaniach empirycznych. Dysponując oszacowaniami bezpośrednimi, szacunkami wariancji oraz zbiorem zmiennych pomocniczych można zastosować modele statystyki małych obszarów na poziomie obszaru. Do najpopularniejszych estymatorów w tym podejściu zalicza się model Faya-Herriota oraz jego modyfikację uwzględniającą skorelowany przestrzennie efekt losowy. Z kolei dysponując danymi jednostkowymi z badań pełnych bądź rejestrów administracyjnych możliwe jest wykorzystanie estymatorów reprezentujących tzw. podejście jednostkowe. Wśród nich wskazać można metody EB oraz MQ wykorzystujące odpowiednie modele do określenia poziomu dochodów także w domenach, z których żadna z jednostek nie została wylosowana do próby.
+
+Ocena otrzymanych oszacowań bazuje na analizie precyzji mierzonej średnim błędem szacunku (MSE). Dla estymatora bezpośredniego oraz metod obszarowych istnieją podejścia teoretyczne pozwalające na analityczne określenie wielkości błędu. Można także wykorzystać metody bazujące na losowaniu podpróbek np. bootstrap. W przypadku podejścia jednostkowego analityczne przybliżenie MSE dla złożonych parametrów, takich jak wskaźniki ubóstwa, jest trudne, zatem przede wszystkim stosuje się metodę bootstrap. 
+
+Przedstawione estymatory oprogramowane są w języku R. Estymacja bezpośrednia jest możliwa poprzez zastosowanie pakietu \textit{survey} \citep{survey2016}. Estymatory właściwe dla podejścia obszarowego mają swoje funkcje w pakiecie \textit{sae} \citep{molina-marhuenda2015}. W tym samym pakiecie oprogramowana jest także metoda EB. Do przeprowadzenia badania empirycznego, biorąc pod uwagę długi czas wykonywania obliczeń, poddano modyfikacji kod programu, dostosowując go do tzw. obliczeń równoległych. Kod nowego programu znajduje się w załączniku. Ostatnia z dyskutowanych w pracy metod estymacji --- metoda MQ nie została zaimplementowana w żadnym pakiecie R. Dostępne są natomiast kody wypracowane w projekcie SAMPLE. 

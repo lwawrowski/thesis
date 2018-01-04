@@ -1,0 +1,64 @@
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage[bf]{caption}
+%\usepackage{enumitem}
+\usepackage{array}
+\newcolumntype{L}{>{\centering\arraybackslash}m{3cm}}
+\usepackage{tikz}
+%\usepackage[textsize=scriptsize,colorinlistoftodos]{todonotes}
+\usepackage{verbatim}
+\usepackage [T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[inline]{enumitem}
+\usepackage{multirow}
+\usepackage{polski}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{pdflscape}
+\usepackage[left=3.5cm,top=2.5cm,bottom=2.5cm,right=2cm]{geometry}
+\linespread{1.5}
+\usepackage{lipsum}
+\usepackage{longtable}
+\usepackage[]{hyperref}
+\hypersetup{
+%    bookmarks=true,         % show bookmarks bar?
+    unicode=true,          % non-Latin characters in Acrobat’s bookmarks
+    pdftoolbar=true,        % show Acrobat’s toolbar?
+    pdfmenubar=true,        % show Acrobat’s menu?
+    pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+%    pdftitle={},    % title
+%    pdfauthor={},     % author
+    %pdfsubject={},   % subject of the document
+    %pdfcreator={Creator},   % creator of the document
+    %pdfproducer={Producer}, % producer of the document
+%    pdfkeywords={}, % list of keywords
+    pdfnewwindow=true,      % links in new window
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=black,          % color of internal links
+    citecolor=black,        % color of links to bibliography
+    filecolor=black,      % color of file links
+    urlcolor=black,           % color of external links
+}
+
+%biblioigrafia
+\usepackage[sort&compress]{natbib}
+\bibpunct{[}{]}{;}{a}{}{,}
+\renewcommand{\cite}{\citep}
+
+\usepackage{amssymb}
+\renewcommand{\baselinestretch}{1.5} 
+\usepackage{listings}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
